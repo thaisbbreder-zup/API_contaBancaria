@@ -15,12 +15,12 @@ public class ContaBancariaService {
     ContaBancariaRepository contaBancariaRepository;
 
     //lista da tabela para retornar todos os dados
-    public List<ContaBancariaModel> buscarTodas() {
+    public List<ContaBancariaModel> listarContas() {
         return contaBancariaRepository.findAll();
     }
 
     //busca cliente por Id
-    public Optional<ContaBancariaModel> buscarPorId(Long id) {
+    public Optional<ContaBancariaModel> buscarContaPorId(Long id) {
         return contaBancariaRepository.findById(id);
     }
 
@@ -36,6 +36,7 @@ public class ContaBancariaService {
         return contaBancariaRepository.save(contaBancariaModel);
     }
 
+    //atualiza conta
     public ContaBancariaModel atualizarConta(Long id, ContaBancariaModel atualizacao) {
         Optional<ContaBancariaModel> conta = contaBancariaRepository.findById(id);
         if (conta.isPresent()) {

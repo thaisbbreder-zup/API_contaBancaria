@@ -1,12 +1,16 @@
 package com.catalisa.contaBancaria.controller;
 
+
+
 import com.catalisa.contaBancaria.exception.ContaNotFoundException;
 import com.catalisa.contaBancaria.model.ContaBancariaModel;
+import com.catalisa.contaBancaria.repository.ContaBancariaRepository;
 import com.catalisa.contaBancaria.service.ContaBancariaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,16 +22,19 @@ public class ContaBancariaController {
     @Autowired
     ContaBancariaService contaBancariaService;
 
+    @Autowired
+    ContaBancariaRepository contaBancariaRepository;
+
     //requisicoes get
     @GetMapping(path = "/contas") //mapeia o metodo como get e como acessar esse metodo
 
-    public List<ContaBancariaModel> buscaTodasContas() {
-        return contaBancariaService.buscarTodas();
+    public List<ContaBancariaModel> buscarTodasContas() {
+        return contaBancariaService.listarContas();
     }
 
     @GetMapping(path = "/contas/{id}")
     public Optional<ContaBancariaModel> buscarContaPorID(@PathVariable Long id) {
-        return contaBancariaService.buscarPorId(id);
+        return contaBancariaService.buscarContaPorId(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -36,9 +43,9 @@ public class ContaBancariaController {
         return contaBancariaService.cadastrar(contaBancariaModel);
     }
 
-    @PatchMapping(path = "/contas/{id}")
-    public ResponseEntity<ContaBancariaModel> atualizarConta(@PathVariable Long id, @RequestBody ContaBancariaModel contaUpdate) {
-        ContaBancariaModel atualizarConta = contaBancariaService.atualizarConta(id, contaUpdate);
+    @PutMapping("/{id}")
+    public ResponseEntity<ContaBancariaModel> atualizarConta(@PathVariable Long id, @RequestBody ContaBancariaModel contaAtualizada) {
+        ContaBancariaModel atualizarConta = contaBancariaService.atualizarConta(id, contaAtualizada);
         return ResponseEntity.ok(atualizarConta);
     }
 
